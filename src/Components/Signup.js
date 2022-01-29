@@ -13,16 +13,56 @@ import { grey } from '@mui/material/colors';
 import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import {Link} from "react-router-dom";
+import {useState, useContext} from 'react';
+import {Link, useHistory} from "react-router-dom";
+import { AuthContext } from '../Context/AuthContext';
 
-export default function MultiActionAreaCard() {
+export default function Signup() {
     const useStyles = makeStyles({
         text1 : {
             color : 'grey',
             textAlign: 'center'
+        },
+        card2:{
+            height : '5vb',
+            marginTop : "2%" 
         }
     })
+
     const classes = useStyles();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [file, setFile] = useState(null);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState('');
+    // const history = useHistory();
+    const {signup} = useContext(AuthContext);
+
+    const handleClick = async() => {
+        if(file == null){
+            setError("Please upload profile image");
+
+            setTimeout(() => {
+                setError('');
+            }, 4000);
+            return;
+        }
+
+        try{
+            let userObj = await signup(email, password);
+            let uid = userObj.user.uid;
+            console.log(uid);
+        }
+        catch(error){
+            setError(error);
+
+            setTimeout(() => {
+                setError('');
+            }, 4000);
+        }
+    }
+
     return (
       <div className = "signupWrapper">
           <div className = "signupCard">
@@ -34,20 +74,20 @@ export default function MultiActionAreaCard() {
                     <Typography className = {classes.text1} variant="subtitle1" >
                         Sign up to see photos and videos from your friends
                     </Typography>
-                    {true && <Alert severity="error">This is an error alert — check it out!</Alert>}
-                    <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth={true} margin='dense'/>
-                    <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} margin='dense'/>
-                    <TextField id="outlined-basic" label="Full Name" variant="outlined" fullWidth={true} margin='dense'/>
+                    { error!='' && <Alert severity="error">{error}</Alert>}
+                    <TextField id="outlined-basic" label="Email" variant="outlined" fullWidth={true} margin='dense' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <TextField id="outlined-basic" label="Password" variant="outlined" fullWidth={true} margin='dense' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <TextField id="outlined-basic" label="Full Name" variant="outlined" fullWidth={true} margin='dense'value={name} onChange={(e) => setName(e.target.value)}/>
                 </CardContent>
                 <CardActions>
-                    <Button color="secondary" fullWidth={true} variant="outlined" margin="dense" startIcon={<CloudUploadIcon/>} >
-                    Upload Profile Image
-                    <input type ="file" accept="image/*" hidden/>
+                    <Button color="secondary" fullWidth={true} variant="outlined" margin="dense" startIcon={<CloudUploadIcon/>} component="label">
+                    Upload Profile Image {/* component = "label agr nhi hoga button pe to image upload nhi ho rhi thi pta nhi kyun */}
+                    <input type ="file" accept="image/*" hidden onChange={(e) => setFile(e.target.files[0])}/>
                     </Button>
                 </CardActions>
                 <CardActions>
-                    <Button color="primary" variant="contained" fullWidth={true}>
-                    Share
+                    <Button color="primary" variant="contained" fullWidth={true} disable={loading} onClick={handleClick}>
+                    Signup
                     </Button>
                 </CardActions>
                 <CardContent>
@@ -66,3 +106,22 @@ export default function MultiActionAreaCard() {
     
   );
 }
+
+
+/*
+    Dear Team,
+    I was shorlisted for interview with infosys campus recruitment for System Engineer role but my interview was not conducted it's been 2 months since i have been reaching TalentAcquisition team despite repeated reminders there is no response from their side 
+    Can you please look into this matter
+    Below are my details : 
+    Interview Date : Tuesday,23 Nov 2021 :  Time :- 15:20
+    email ID : kamalpreetsingh0557@gmail.com
+*/
+
+/* INFY TQ 
+Website: https://infytq.onwingspan.com/en/page/home Certification info and registration link:
+https://infytq.onwingspan.com/en/page/lex_auth_0132039837575168000 Learning Content:
+https://infytq.onwingspan.com/en/page/lex_auth_0132224288888094723 Mock Assessments:
+https://infytq.onwingspan.com/en/page/lex_auth_0132318608099737607 -> here participants need to take up the final Round mock assessment of respective language for HON practice FAQs:
+https://infytq.onwingspan.com/en/page/lex_auth_0132224289973780484 Exam guidelines available in InfyTQ
+website: https://infytq.onwingspan.com/public-assets/InfosysCertificationExaminationGuidelines.pdf
+*/
