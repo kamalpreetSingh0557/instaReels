@@ -16,6 +16,9 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {useState, useContext} from 'react';
 import {Link, useHistory} from "react-router-dom";
 import { AuthContext } from '../Context/AuthContext';
+import {database, storage} from '../firebase';
+// In react-router-dom v6 useHistory() is replaced by useNavigate()
+// import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
     const useStyles = makeStyles({
@@ -35,8 +38,9 @@ export default function Signup() {
     const [name, setName] = useState('');
     const [file, setFile] = useState(null);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState('');
-    // const history = useHistory();
+    const [loading, setLoading] = useState(false);
+    const history = useHistory();
+    //const history  = useNavigate();
     const {signup} = useContext(AuthContext);
 
     const handleClick = async() => {
@@ -50,11 +54,44 @@ export default function Signup() {
         }
 
         try{
+            setError('');
+            setLoading(true);
             let userObj = await signup(email, password);
             let uid = userObj.user.uid;
             console.log(uid);
+            const uploadTask = storage.ref(`/users/${uid}/ProfileImage`).put(file);
+            uploadTask.on('state_changed',fn1,fn2,fn3);
+            function fn1(snapshot){
+                let progress = (snapshot.bytesTransferred / snapshot.totalBytes)*100;
+                console.log(`Upload is ${progress} done.`)
+            }
+            function fn2(error){
+                console.log(error);
+                setError(error);
+
+                setTimeout(() => {
+                    setError('');
+                }, 4000);
+                setLoading(false);
+                return;
+            }
+            function fn3(){
+                uploadTask.snapshot.ref.getDownloadURL().then((url)=>{
+                    console.log(url);
+                    database.users.doc(uid).set({
+                        email: email,
+                        userId : uid,
+                        fullname : name,
+                        profileURL : url,
+                        createdAt : database.getTimeStamp()
+                    })
+                })
+                setLoading(false);
+                history.push('/');
+            }
         }
         catch(error){
+            console.log(error);
             setError(error);
 
             setTimeout(() => {
@@ -86,7 +123,7 @@ export default function Signup() {
                     </Button>
                 </CardActions>
                 <CardActions>
-                    <Button color="primary" variant="contained" fullWidth={true} disable={loading} onClick={handleClick}>
+                    <Button color="primary" variant="contained" fullWidth={true} onClick={handleClick}>
                     Signup
                     </Button>
                 </CardActions>

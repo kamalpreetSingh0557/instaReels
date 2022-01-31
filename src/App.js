@@ -13,13 +13,23 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes> 
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/" element={<Feed />} />
-        </Routes> 
+        <Switch>
+          <Route path="/login" component={Login}/>
+          <Route path="/signup" component={SignUp}/>
+          <Route path="/" component={Feed}/>
+        </Switch>
       </AuthProvider>
     </BrowserRouter>
+
+    // <BrowserRouter>
+    //   <AuthProvider>
+    //     <Routes> 
+    //         <Route path="/login" element={<Login />} />
+    //         <Route path="/signup" element={<SignUp />} />
+    //         <Route path="/" element={<Feed />} />
+    //     </Routes> 
+    //   </AuthProvider>
+    // </BrowserRouter>
   );
 }
 

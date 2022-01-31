@@ -4,13 +4,13 @@ import 'firebase/compat/storage';
 import 'firebase/compat/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDuzD4Zxey3FwOiw0n9wPyd7JwNzku4Xrk",
-    authDomain: "instareelhw.firebaseapp.com",
-    projectId: "instareelhw",
-    storageBucket: "instareelhw.appspot.com",
-    messagingSenderId: "740789149159",
-    appId: "1:740789149159:web:dc105267814941d9b5f142"
-  };
+  apiKey: "AIzaSyAWDTc7KjSob5pJ8jSVRE2JV7Lm5dM0FM0",
+  authDomain: "insta-reels-2dda3.firebaseapp.com",
+  projectId: "insta-reels-2dda3",
+  storageBucket: "insta-reels-2dda3.appspot.com",
+  messagingSenderId: "815731560416",
+  appId: "1:815731560416:web:b4ae712d4b2ae8a5456585"
+};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -20,7 +20,7 @@ export const auth = firebase.auth();
 const firestore = firebase.firestore();
 export const database = {
     users : firestore.collection('users'),
-    getTimeStamp : firebase.firestore.FieldValue.serverTimeStamp 
+    getTimeStamp : firebase.firestore.FieldValue.serverTimestamp, 
 }
 
 export const storage = firebase.storage();
