@@ -7,6 +7,7 @@ import Feed from './Components/Feed';
 import {BrowserRouter, Switch, Route, Routes} from 'react-router-dom';
 
 import {AuthContext, AuthProvider} from './Context/AuthContext';
+import PrivateRoute from './Components/PrivateRoute'
 
 function App() {
   // therefore app ko ismein wrap krna hoga
@@ -16,7 +17,7 @@ function App() {
         <Switch>
           <Route path="/login" component={Login}/>
           <Route path="/signup" component={SignUp}/>
-          <Route path="/" component={Feed}/>
+          <PrivateRoute path="/" component={Feed}/>
         </Switch>
       </AuthProvider>
     </BrowserRouter>
