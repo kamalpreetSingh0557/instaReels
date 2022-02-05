@@ -57,7 +57,7 @@ export default function Login() {
             setLoading(true);
             let user = await login(email, password);
             setLoading(false);
-            console.log(user);
+            //console.log(user);
             history.push('/');
         }
         catch(error){
