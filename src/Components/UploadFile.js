@@ -9,7 +9,7 @@ import {v4 as uuidv4} from 'uuid'
 
 
 function UploadFile(props){
-    console.log(props.user);
+    //console.log(props.user);
     const[error, setError] = useState('');
     const[loading, setLoading] = useState(false);
     //const[file, newFile] = useState();
