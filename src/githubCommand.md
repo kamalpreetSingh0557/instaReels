@@ -18,7 +18,7 @@ git push -u origin main
 
 // mein jo krta hu 
 git add .
-gitgit commit -m "your commit"
+git commit -m "your commit"
 git branch -M main
 git push -u origin main
 

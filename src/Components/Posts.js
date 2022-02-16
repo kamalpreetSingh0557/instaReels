@@ -25,6 +25,7 @@ import {CardActionArea, CardActions } from '@mui/material';
 //
 import Like2 from './Like2';
 import AddComment from './AddComment';
+import Comment from'./Comment';
 
 function Posts(props){
     const [posts, setPosts] = useState(null);
@@ -96,13 +97,14 @@ function Posts(props){
                                             </div>
                                             <div className='comment-modal'>
                                                 <Card className='card1' sx={{ maxWidth: 345 }}>
+                                                    <Comment postData={post} />
                                                 </Card>
 
                                                 <Card className='card2' variant="outlined">
                                                    <Typography style={{padding: '0.4rem'}}>{post.likes.length == 0 ? "" : `Liked by ${post.likes.length} users`}</Typography>
                                                    <div style={{display : 'flex'}}>
                                                         <Like2 userData={props.user} postData={post} style={{display:'flex', alignItems:'center', justifyContent:'center', padding: '1rem', paddingTop: '0.5rem'}} />
-                                                        <AddComment />
+                                                        <AddComment userData={props.user} postData={post}/>
                                                         
                                                    </div>
                                                 </Card>
